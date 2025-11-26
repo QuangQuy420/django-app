@@ -3,3 +3,6 @@
 
 ## Create app:
 ```python manage.py startapp blog apps/blog```
+
+## Start postgre
+```docker compose up -d```
