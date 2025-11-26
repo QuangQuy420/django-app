@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/" class="nav-logo">MyBlog</a>
+            <a href="/blog/" class="nav-link">Blog</a>
+        </div>
+
+        <div class="nav-right">
+            {% if request.user.is_authenticated %}
+                <span class="nav-text">Hello, {{ request.user.username }}</span>
+                <a href="/users/profile/" class="nav-link">Profile</a>
+                <a href="/users/logout/" class="nav-link nav-link-button">Logout</a>
+            {% else %}
+                <a href="/users/login/" class="nav-link">Login</a>
+                <a href="/users/register/" class="nav-link nav-link-button">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
