@@ -6,3 +6,6 @@
 
 ## Start postgre
 ```docker compose up -d```
+
+## Start app
+```python manage.py runserver```

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1 class="auth-title">Create an Account</h1>
+        <p class="auth-subtitle">
+            Join the blog and start sharing your posts.
+        </p>
+
+        {# non-field errors (e.g. "user already exists") #}
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.username.id_for_label }}">
+                    {{ form.username.label }}
+                </label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="field-error">
+                        {{ form.username.errors|striptags }}
+                    </div>
+                {% endif %}
+                {% if form.username.help_text %}
+                    <div class="field-help">
+                        {{ form.username.help_text }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.email.id_for_label }}">
+                    {{ form.email.label }}
+                </label>
+                {{ form.email}}
+                {% if form.email.errors %}
+                    <div class="field-error">
+                        {{ form.email.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.password1.id_for_label }}">
+                    {{ form.password1.label }}
+                </label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="field-error">
+                        {{ form.password1.errors|striptags }}
+                    </div>
+                {% endif %}
+                {% if form.password1.help_text %}
+                    <div class="field-help">
+                        {{ form.password1.help_text|safe }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.password2.id_for_label }}">
+                    {{ form.password2.label }}
+                </label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="field-error">
+                        {{ form.password2.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+                Register
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account?
+            Already have an account?
+            <a href="{% url 'users:login' %}">Log in</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

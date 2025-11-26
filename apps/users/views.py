@@ -1,73 +1,53 @@
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from django.views.generic import CreateView, FormView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout
+from django.views import View
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from apps.users.forms import CustomUserCreationForm
 
 User = get_user_model()
-
-from .serializers import RegisterSerializer, LoginSerializer
 
 
 # ------------------------------
 # Register View
 # ------------------------------
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]
+class RegisterView(CreateView):
+    model = User
+    form_class = CustomUserCreationForm
+    template_name = "users/register.html"
+    success_url = reverse_lazy("users:login")   
 
 
 # ------------------------------
 # Login View (JWT)
 # ------------------------------
-class LoginView(generics.GenericAPIView):
-    serializer_class = LoginSerializer
-    permission_classes = [permissions.AllowAny]
+class LoginView(FormView):
+    template_name = "users/login.html"
+    form_class = AuthenticationForm
+    success_url = reverse_lazy("blog:post_list")
 
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        user = serializer.validated_data['user']
-
-        # generate JWT tokens
-        refresh = RefreshToken.for_user(user)
-
-        return Response({
-            "user": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email
-            },
-            "tokens": {
-                "access": str(refresh.access_token),
-                "refresh": str(refresh)
-            }
-        })
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 # ------------------------------
 # Logout (blacklist refresh token)
 # ------------------------------
-class LogoutView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()           # requires simplejwt blacklist app
-            return Response({"detail": "Logged out successfully"})
-        except Exception:
-            return Response({"detail": "Invalid token"}, status=400)
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("users:login")
 
 
 # ------------------------------
 # Get current user profile
 # ------------------------------
-class ProfileView(generics.RetrieveAPIView):
-    serializer_class = RegisterSerializer   # reuse fields
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "users/profile.html"

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <h1 class="auth-title">My Profile</h1>
+        <p class="auth-subtitle">Your account information</p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 20px;">
+            <div class="profile-row">
+                <span class="profile-label">Username:</span>
+                <span class="profile-value">{{ request.user.username }}</span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Email:</span>
+                <span class="profile-value">{{ request.user.email }}</span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Joined:</span>
+                <span class="profile-value">{{ request.user.date_joined|date:"M d, Y" }}</span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Last login:</span>
+                <span class="profile-value">
+                    {% if request.user.last_login %}
+                        {{ request.user.last_login|date:"M d, Y H:i" }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <hr style="margin: 24px 0; border-color: #e5e7eb;">
+
+        <div style="display:flex; justify-content:space-between; gap:10px;">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary full-width">
+                View Blog
+            </a>
+
+            <a href="{% url 'users:logout' %}" class="btn btn-primary full-width">
+                Logout
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
