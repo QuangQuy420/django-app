@@ -11,6 +11,13 @@
             </a>
         </p>
 
+        {% if request.user == post.author %}
+            <div style="margin-top:8px; display:flex; gap:8px;">
+                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-primary" style="font-size:12px; padding:6px 10px;">Edit</a>
+                <a href="{% url 'blog:post_delete' post.pk %}" class="btn" style="font-size:12px; padding:6px 10px; background:#dc2626; color:#ffffff;">Delete</a>
+            </div>
+        {% endif %}
+
         <h1 class="auth-title">{{ post.title }}</h1>
         <p class="auth-subtitle" style="margin-bottom:20px;">
             by {{ post.author.username }} • {{ post.created_at|date:"M d, Y H:i" }}
