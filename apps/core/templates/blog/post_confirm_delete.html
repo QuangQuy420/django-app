@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Post{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1 class="auth-title">Delete Post</h1>
+        <p>Are you sure you want to delete "{{ post.title }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary full-width" style="background:#dc2626;">Yes, Delete</button>
+            <a href="{% url 'blog:post_list' %}" class="btn full-width" style="margin-top:8px;">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

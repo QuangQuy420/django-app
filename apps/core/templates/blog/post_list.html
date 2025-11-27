@@ -34,6 +34,12 @@
                         <p style="margin:0; font-size:14px; color:#4b5563;">
                             {{ post.content|truncatechars:140 }}
                         </p>
+                        {% if request.user == post.author %}
+                            <div style="margin-top:8px; display:flex; gap:8px;">
+                                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-primary" style="font-size:12px; padding:6px 10px;">Edit</a>
+                                <a href="{% url 'blog:post_delete' post.pk %}" class="btn" style="font-size:12px; padding:6px 10px; background:#dc2626; color:#ffffff;">Delete</a>
+                            </div>
+                        {% endif %}
                     </article>
                 {% endfor %}
             </div>
