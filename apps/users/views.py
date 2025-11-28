@@ -24,7 +24,7 @@ class RegisterView(CreateView):
 
 
 # ------------------------------
-# Login View (JWT)
+# Login View
 # ------------------------------
 class LoginView(FormView):
     template_name = "users/login.html"
@@ -38,7 +38,7 @@ class LoginView(FormView):
 
 
 # ------------------------------
-# Logout (blacklist refresh token)
+# Logout
 # ------------------------------
 class LogoutView(View):
     def get(self, request):
