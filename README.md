@@ -46,7 +46,7 @@ docker compose exec web python manage.py migrate
 docker compose exec web python manage.py createsuperuser
 ```
 
-### You can now access your API at http://localhost:8000
+### You can now access your API at http://localhost:8000/blog
 
 ---
 
@@ -106,7 +106,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-### You can now access your API at http://localhost:8000
+### You can now access your API at http://localhost:8000/blog
 
 ---
 
