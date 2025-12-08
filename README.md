@@ -18,51 +18,52 @@ This project is suitable for learning, practicing, or building production-ready 
 
 ---
 
-## 2. Project Structure
+## 2. How to Start the Application with Docker (Recommended for WSL or Linux environments)
 
+### 2.1. Clone the project
+```bash
+git clone git@github.com:QuangQuy420/django-app.git
+cd django-app.git
 ```
-project_root/
-│── manage.py
-│── requirements.txt
-│── .env
-│── docker-compose.yml          #Include PostgreSQL
-│
-├── core/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-│
-├── users/
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   └── forms.py
-│
-├── blog/
-│   ├── models.py
-│   ├── views.py
-│   └── urls.py
-│
-└── templates/
+
+### 2.2. Configure .env (Edit if any)
+```bash
+cp .env.example .env
 ```
+
+### 2.3. Build and Start
+```bash
+docker compose up --build
+```
+
+### 2.4. Apply Migrations
+```bash
+docker compose exec web python manage.py migrate
+```
+
+### 2.5. Create Superuser (Optional)
+```bash
+docker compose exec web python manage.py createsuperuser
+```
+
+### You can now access your API at http://localhost:8000
 
 ---
 
-## 3. Installation
+## 3. How to start application with Windows
 
-### 3.1 Clone the project
+### 3.1. Clone the project
 ```bash
-git clone https://github.com/username/project-name.git
-cd project-name
+git clone git@github.com:QuangQuy420/django-app.git
+cd django-app.git
 ```
 
-### 3.2 Create a virtual environment
+### 3.2. Create a virtual environment
 ```bash
 python -m venv venv
 ```
 
-### 3.3 Activate the virtual environment
+### 3.3. Activate the virtual environment
 Windows:
 ```bash
 venv\Scripts\activate
@@ -73,63 +74,43 @@ Mac/Linux:
 source venv/bin/activate
 ```
 
-### 3.4 Install dependencies
+### 3.4. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 4. Environment Variables
-
-Create a `.env` file in the project root.
-
-Example:
-
-```env
-POSTGRES_DB=django_db
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=123456
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-```
-
----
-
-## 5. Database Setup
-
-### Run Postgres with Docker
+### 3.5. Configure .env (Edit if any)
 ```bash
-docker compose up -d
+cp .env.example .env
 ```
 
-### Apply migrations
+### 3.6. Database Setup
+#### Download the PostgreSQL Installer for Windows.
+- During installation, set the password to 123456 (to match your .env) or update your .env later.
+- Open pgAdmin (installed with Postgres) or a terminal and create a database named django_db.
+
+
+### 3.7. Apply migrations
 ```bash
 python manage.py migrate
 ```
 
-### Create superuser
+### 3.8. Create Superuser (Optional)
 ```bash
 python manage.py createsuperuser
 ```
 
----
-
-## 6. Run the Development Server
+### 3.9. Run the Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-Server will be available at:
-
-```
-http://127.0.0.1:8000/
-```
+### You can now access your API at http://localhost:8000
 
 ---
 
-## 7. Example URL Structure
+## 4. Example URL Structure
 
 ```
 /blog/                   - List all posts
@@ -141,7 +122,7 @@ http://127.0.0.1:8000/
 
 ---
 
-## 8. Technologies Used
+## 5. Technologies Used
 
 - Python 3.11+
 - Django 5.x
@@ -151,7 +132,7 @@ http://127.0.0.1:8000/
 
 ---
 
-## 9. License
+## 6. License
 
 This project is licensed under the MIT License.
 

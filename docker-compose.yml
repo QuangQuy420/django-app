@@ -1,6 +1,24 @@
 version: '3.9'
 
 services:
+  # --- Django App ---
+  web:
+    build: .
+    container_name: django_web
+    # Bind to 0.0.0.0 so you can access it from Windows
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      # CRITICAL: Override .env to point to the docker service name
+      - POSTGRES_HOST=db
+
   db:
     image: postgres:16
     container_name: django_postgres
