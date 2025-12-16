@@ -1,8 +1,10 @@
 asgiref==3.11.0
 Django==5.2.8
+django-redis==6.0.0
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 psycopg2-binary==2.9.11
 PyJWT==2.10.1
 python-dotenv==1.2.1
+redis==7.1.0
 sqlparse==0.5.3

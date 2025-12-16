@@ -34,12 +34,24 @@
                         <p style="margin:0; font-size:14px; color:#4b5563;">
                             {{ post.content|truncatechars:140 }}
                         </p>
-                        {% if request.user == post.author %}
-                            <div style="margin-top:8px; display:flex; gap:8px;">
-                                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-primary" style="font-size:12px; padding:6px 10px;">Edit</a>
+                        <div style="margin-top:8px; display:flex; gap:8px;">
+                            
+                            {% if request.user.is_authenticated %}
+                                {% if post.pk in locked_post_ids %}
+                                    <button class="btn" style="font-size:12px; padding:6px 10px; background:#9ca3af; color:white; cursor:not-allowed;" disabled title="Currently being edited by another user">
+                                        🔒 Locked
+                                    </button>
+                                {% else %}
+                                    <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-primary" style="font-size:12px; padding:6px 10px;">
+                                        Edit
+                                    </a>
+                                {% endif %}
+                                {% endif %}
+
+                            {% if request.user == post.author and post.pk not in locked_post_ids %}
                                 <a href="{% url 'blog:post_delete' post.pk %}" class="btn" style="font-size:12px; padding:6px 10px; background:#dc2626; color:#ffffff;">Delete</a>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </article>
                 {% endfor %}
             </div>
